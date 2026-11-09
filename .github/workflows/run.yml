@@ -23,7 +23,7 @@ jobs:
       - name: Run Checkin
         env:
           GLADOS_COOKIE: ${{ secrets.GLADOS }}
-          PUSHPLUS_TOKEN: ${{ secrets.NOTIFY }}
+          SERVERCHAN_SENDKEY: ${{ secrets.NOTIFY }}
           EXCHANGE_PLAN: "plan500" # 500分自动兑换100天，不需要可设为 off
         run: |
           python checkin.py
