@@ -1,7 +1,7 @@
 name: run
 on:
   schedule:
-    - cron: '45 1 * * *' # 每天北京时间 9：30 点左右运行（根据需要调整）
+    - cron: '17 0 * * *' # 每天北京时间早上 08:17 左右运行（避开 08:00 整点拥堵）
   workflow_dispatch:
 
 jobs:
@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -23,7 +23,9 @@ jobs:
       - name: Run Checkin
         env:
           GLADOS_COOKIE: ${{ secrets.GLADOS }}
+          GLADOS_USER_AGENT: ${{ secrets.GLADOS_USER_AGENT }}
           SERVERCHAN_SENDKEY: ${{ secrets.NOTIFY }}
           EXCHANGE_PLAN: "plan500" # 500分自动兑换100天，不需要可设为 off
         run: |
+          sleep $((RANDOM % 180))
           python checkin.py
